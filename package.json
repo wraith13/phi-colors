@@ -1,0 +1,11 @@
+{
+  "name": "phi-colors",
+  "version": "0.0.0",
+  "description": "generate phi ratio coloring",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wraith13",
+  "license": "SEE LICENSE IN TBD"
+}
