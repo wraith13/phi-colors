@@ -7,5 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "wraith13",
-  "license": "SEE LICENSE IN LICENSE_1_0.txt"
+  "license": "SEE LICENSE IN LICENSE_1_0.txt",
+  "devDependencies": {
+    "typescript": "^3.3.3"
+  }
 }
