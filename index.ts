@@ -1,4 +1,4 @@
-export module color
+export module phiColors
 {
     export const phi = 1.618033988749895;
 
