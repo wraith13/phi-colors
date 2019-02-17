@@ -4,7 +4,7 @@
   "description": "generate phi ratio coloring",
   "main": "out/source/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha out/test"
   },
   "bugs": {
     "url": "https://github.com/wraith13/phi-colors/issues"
@@ -16,6 +16,9 @@
   "author": "wraith13",
   "license": "SEE LICENSE IN LICENSE_1_0.txt",
   "devDependencies": {
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.9.4",
+    "mocha": "^5.2.0",
     "typescript": "^3.3.3"
   }
 }
