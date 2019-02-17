@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "module": "commonjs",
         "moduleResolution": "node",
         "declaration": false,
         "target": "es5",
@@ -26,11 +27,10 @@
         "skipDefaultLibCheck": true,
         "skipLibCheck": false,
         "pretty": false,
-        "noEmitOnError": true
+        "noEmitOnError": true,
+        "outDir": "out",
+        "rootDir": "."
     },
-    "files": [
-        "index.ts"
-    ],
     "exclude": [
     ]
 }

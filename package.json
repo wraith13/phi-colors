@@ -2,7 +2,7 @@
   "name": "phi-colors",
   "version": "0.0.0",
   "description": "generate phi ratio coloring",
-  "main": "index.js",
+  "main": "out/source/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
