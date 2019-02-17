@@ -12,18 +12,21 @@ var phiColors;
     phiColors.rLumaRate = 0.299;
     phiColors.gLumaRate = 0.587;
     phiColors.bLumaRate = 0.114;
+    var toHex = function (i) {
+        var result = ((255 * i) ^ 0).toString(16).toUpperCase();
+        if (1 === result.length) {
+            result = "0" + result;
+        }
+        return result;
+    };
     phiColors.rgbForStyle = function (expression) {
-        var toHex = function (i) {
-            var result = ((255 * i) ^ 0).toString(16).toUpperCase();
-            if (1 === result.length) {
-                result = "0" + result;
-            }
-            return result;
-        };
         return "#"
             + toHex(expression.r)
             + toHex(expression.g)
             + toHex(expression.b);
+    };
+    phiColors.rgbaForStyle = function (expression) {
+        return phiColors.rgbForStyle(expression) + toHex(expression.a);
     };
     phiColors.rgbFromStyle = function (style) {
         var r = 0.0;
@@ -43,6 +46,32 @@ var phiColors;
             b = parseInt(style.substr(4, 2), 16) / 255.0;
         }
         return { r: r, g: g, b: b };
+    };
+    phiColors.rgbaFromStyle = function (style) {
+        var r = 0.0;
+        var g = 0.0;
+        var b = 0.0;
+        var a = 1.0;
+        while ("#" === style.substr(0, 1)) {
+            style = style.substr(1);
+        }
+        if (3 === style.length || 4 === style.length) {
+            r = (parseInt(style.substr(0, 1), 16) * 0x11) / 255.0;
+            g = (parseInt(style.substr(1, 1), 16) * 0x11) / 255.0;
+            b = (parseInt(style.substr(2, 1), 16) * 0x11) / 255.0;
+            if (4 === style.length) {
+                a = (parseInt(style.substr(3, 1), 16) * 0x11) / 255.0;
+            }
+        }
+        if (6 === style.length || 8 === style.length) {
+            r = parseInt(style.substr(0, 2), 16) / 255.0;
+            g = parseInt(style.substr(2, 2), 16) / 255.0;
+            b = parseInt(style.substr(4, 2), 16) / 255.0;
+            if (8 === style.length) {
+                a = parseInt(style.substr(6, 2), 16) / 255.0;
+            }
+        }
+        return { r: r, g: g, b: b, a: a };
     };
     phiColors.xyzToLength = function (xyz) { return Math.sqrt(Math.pow(xyz.x, 2) + Math.pow(xyz.y, 2) + Math.pow(xyz.z, 2)); };
     phiColors.rgbToXyz = function (expression) { return ({ x: expression.r, y: expression.g, z: expression.b }); };
@@ -68,12 +97,28 @@ var phiColors;
             l: phiColors.rgbToLightness(expression)
         });
     };
+    phiColors.rgbaToHsla = function (expression) {
+        return ({
+            h: phiColors.rgbToHue(expression),
+            s: phiColors.rgbToSaturation(expression),
+            l: phiColors.rgbToLightness(expression),
+            a: expression.a,
+        });
+    };
     phiColors.hslToRgbElement = function (expression, Angle) { return expression.l + expression.s * Math.cos(expression.h - (Math.PI * 2) / 3.0 * Angle); };
     phiColors.hslToRgb = function (expression) {
         return ({
             r: phiColors.hslToRgbElement(expression, 0.0),
             g: phiColors.hslToRgbElement(expression, 1.0),
             b: phiColors.hslToRgbElement(expression, 2.0)
+        });
+    };
+    phiColors.hslaToRgba = function (expression) {
+        return ({
+            r: phiColors.hslToRgbElement(expression, 0.0),
+            g: phiColors.hslToRgbElement(expression, 1.0),
+            b: phiColors.hslToRgbElement(expression, 2.0),
+            a: expression.a,
         });
     };
     phiColors.regulateHue = function (expression) {
@@ -115,11 +160,28 @@ var phiColors;
         return result;
     };
     phiColors.regulateHsl = function (expression) { return phiColors.clipSaturation(phiColors.clipLightness(phiColors.regulateHue(expression))); };
+    phiColors.regulateHsla = function (expression) {
+        var result = phiColors.clipSaturation(phiColors.clipLightness(phiColors.regulateHue(expression)));
+        return {
+            h: result.h,
+            s: result.s,
+            l: result.l,
+            a: expression.a,
+        };
+    };
     phiColors.clipRgb = function (expression) {
         return ({
             r: Math.max(0.0, Math.min(1.0, expression.r)),
             g: Math.max(0.0, Math.min(1.0, expression.g)),
             b: Math.max(0.0, Math.min(1.0, expression.b)),
+        });
+    };
+    phiColors.clipRgba = function (expression) {
+        return ({
+            r: Math.max(0.0, Math.min(1.0, expression.r)),
+            g: Math.max(0.0, Math.min(1.0, expression.g)),
+            b: Math.max(0.0, Math.min(1.0, expression.b)),
+            a: Math.max(0.0, Math.min(1.0, expression.a)),
         });
     };
     /*

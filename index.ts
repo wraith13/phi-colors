@@ -8,12 +8,20 @@ export module phiColors
         g : number; // min:0.0, max:1.0
         b : number; // min:0.0, max:1.0
     }
+    export interface Rgba extends Rgb
+    {
+        a : number; // min:0.0, max:1.0
+    }
     //	※座標空間的に RGB 色空間立方体の座標として捉えるので、本来であれば円筒形あるいは双円錐形の座標となる HLS (および HSV とも)厳密には異なるが、ここでは便宜上 HLS と呼称する。
     export interface Hsl
     {
         h : number; // min:-Math.PI, max:Math.PI
         s : number; // min:0.0, max:Math,Pow(calcSaturation({r:1.0, g:0.0, b:0.0}), 2) === 2.0/3.0
         l : number; // min:0.0, max:1.0
+    }
+    export interface Hsla extends Hsl
+    {
+        a : number; // min:0.0, max:1.0
     }
     export const HslHMin = -Math.PI;
     export const HslHMax = Math.PI;
@@ -31,20 +39,24 @@ export module phiColors
         y : number;
         z : number;
     }
+    const toHex = (i : number) : string => {
+        let result = ((255 *i) ^ 0).toString(16).toUpperCase();
+        if (1 === result.length) {
+            result = "0" +result;
+        }
+        return result;
+    };
     export const rgbForStyle = function(expression: Rgb)
     {
-        const toHex = (i : number) : string => {
-            let result = ((255 *i) ^ 0).toString(16).toUpperCase();
-            if (1 === result.length) {
-                result = "0" +result;
-            }
-            return result;
-        };
         return "#"
                 +toHex(expression.r)
                 +toHex(expression.g)
                 +toHex(expression.b)
         ;
+    };
+    export const rgbaForStyle = function(expression: Rgba)
+    {
+        return rgbForStyle(expression) +toHex(expression.a);
     };
     export const rgbFromStyle = function(style : string) : Rgb
     {
@@ -68,6 +80,38 @@ export module phiColors
             b = parseInt(style.substr(4,2), 16) /255.0;
         }
         return {r, g, b};
+    };
+    export const rgbaFromStyle = function(style : string) : Rgba
+    {
+        let r = 0.0;
+        let g = 0.0;
+        let b = 0.0;
+        let a = 1.0;
+        while("#" === style.substr(0,1))
+        {
+            style = style.substr(1);
+        }
+        if (3 === style.length || 4 === style.length)
+        {
+            r = (parseInt(style.substr(0,1), 16) *0x11) /255.0;
+            g = (parseInt(style.substr(1,1), 16) *0x11) /255.0;
+            b = (parseInt(style.substr(2,1), 16) *0x11) /255.0;
+            if (4 === style.length)
+            {
+                a = (parseInt(style.substr(3,1), 16) *0x11) /255.0;
+            }
+        }
+        if (6 === style.length || 8 === style.length)
+        {
+            r = parseInt(style.substr(0,2), 16) /255.0;
+            g = parseInt(style.substr(2,2), 16) /255.0;
+            b = parseInt(style.substr(4,2), 16) /255.0;
+            if (8 === style.length)
+            {
+                a = parseInt(style.substr(6,2), 16) /255.0;
+            }
+        }
+        return {r, g, b, a};
     };
     export const xyzToLength = (xyz : Point3d) : number => Math.sqrt(Math.pow(xyz.x, 2) +Math.pow(xyz.y, 2) +Math.pow(xyz.z, 2));
     export const rgbToXyz = (expression : Rgb) : Point3d => ({x:expression.r, y:expression.g, z:expression.b});
@@ -94,6 +138,15 @@ export module phiColors
             l: rgbToLightness(expression)
         }
     );
+    export const rgbaToHsla = (expression : Rgba) : Hsla =>
+    (
+        {
+            h: rgbToHue(expression),
+            s: rgbToSaturation(expression),
+            l: rgbToLightness(expression),
+            a: expression.a,
+        }
+    );
     export const hslToRgbElement = (expression : Hsl, Angle : number) : number => expression.l +expression.s *Math.cos(expression.h -(Math.PI *2) /3.0 *Angle);
     export const hslToRgb = (expression : Hsl) : Rgb =>
     (
@@ -102,7 +155,16 @@ export module phiColors
             g:hslToRgbElement(expression, 1.0),
             b:hslToRgbElement(expression, 2.0)
         }
-        );
+    );
+    export const hslaToRgba = (expression : Hsla) : Rgba =>
+    (
+        {
+            r:hslToRgbElement(expression, 0.0),
+            g:hslToRgbElement(expression, 1.0),
+            b:hslToRgbElement(expression, 2.0),
+            a:expression.a,
+        }
+    );
     export const regulateHue = (expression : Hsl) : Hsl =>
     {
         let h = expression.h;
@@ -156,12 +218,31 @@ export module phiColors
         return result;
     };
     export const regulateHsl = (expression : Hsl) : Hsl => clipSaturation(clipLightness(regulateHue(expression)));
+    export const regulateHsla = (expression : Hsla) : Hsla =>
+    {
+        const result = clipSaturation(clipLightness(regulateHue(expression)));
+        return {
+            h: result.h,
+            s: result.s,
+            l: result.l,
+            a: expression.a,
+        };
+    };
     export const clipRgb = (expression : Rgb) : Rgb =>
     (
         {
             r: Math.max(0.0, Math.min(1.0, expression.r)),
             g: Math.max(0.0, Math.min(1.0, expression.g)),
             b: Math.max(0.0, Math.min(1.0, expression.b)),
+        }
+    );
+    export const clipRgba = (expression : Rgba) : Rgba =>
+    (
+        {
+            r: Math.max(0.0, Math.min(1.0, expression.r)),
+            g: Math.max(0.0, Math.min(1.0, expression.g)),
+            b: Math.max(0.0, Math.min(1.0, expression.b)),
+            a: Math.max(0.0, Math.min(1.0, expression.a)),
         }
     );
 
