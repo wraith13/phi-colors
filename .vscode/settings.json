@@ -1,0 +1,4 @@
+{
+    "mocha.runTestsOnSave": "true",
+    "mocha.subdirectory": "out"
+}
