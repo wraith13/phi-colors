@@ -1,6 +1,7 @@
 {
   "name": "phi-colors",
   "version": "0.0.0",
+  "preview": true,
   "description": "generate phi ratio coloring",
   "main": "out/source/index.js",
   "scripts": {
