@@ -184,33 +184,39 @@ var phiColors;
             a: Math.max(0.0, Math.min(1.0, expression.a)),
         });
     };
-    /*
-    export const test = () =>
-    {
-        console.log("rgbToHsl({r:0.0,g:0.0,b:0.0})", rgbToHsl({r:0.0,g:0.0,b:0.0}));
-        console.log("rgbToHsl({r:1.0,g:0.0,b:0.0})", rgbToHsl({r:1.0,g:0.0,b:0.0}));
-        console.log("rgbToHsl({r:0.0,g:1.0,b:0.0})", rgbToHsl({r:0.0,g:1.0,b:0.0}));
-        console.log("rgbToHsl({r:0.0,g:0.0,b:1.0})", rgbToHsl({r:0.0,g:0.0,b:1.0}));
-        console.log("rgbToHsl({r:1.0,g:1.0,b:0.0})", rgbToHsl({r:1.0,g:1.0,b:0.0}));
-        console.log("rgbToHsl({r:1.0,g:1.0,b:1.0})", rgbToHsl({r:1.0,g:1.0,b:1.0}));
-        console.log("rgbToHsl({r:0.5,g:0.5,b:0.5})", rgbToHsl({r:0.5,g:0.5,b:0.5}));
-        console.log("rgbToHsl({r:0.1,g:0.0,b:0.0})", rgbToHsl({r:0.1,g:0.0,b:0.0}));
-        console.log("rgbToHsl({r:0.1,g:0.1,b:0.0})", rgbToHsl({r:0.1,g:0.1,b:0.0}));
-        console.log("rgbToHsl({r:0.9,g:0.0,b:0.0})", rgbToHsl({r:0.9,g:0.0,b:0.0}));
-        console.log("rgbToHsl({r:0.9,g:0.9,b:0.0})", rgbToHsl({r:0.9,g:0.9,b:0.0}));
-        console.log("hslToRgb(rgbToHsl({r:0.0,g:0.0,b:0.0}))", hslToRgb(rgbToHsl({r:0.0,g:0.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:1.0,g:0.0,b:0.0}))", hslToRgb(rgbToHsl({r:1.0,g:0.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.0,g:1.0,b:0.0}))", hslToRgb(rgbToHsl({r:0.0,g:1.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.0,g:0.0,b:1.0}))", hslToRgb(rgbToHsl({r:0.0,g:0.0,b:1.0})));
-        console.log("hslToRgb(rgbToHsl({r:1.0,g:1.0,b:0.0}))", hslToRgb(rgbToHsl({r:1.0,g:1.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:1.0,g:1.0,b:1.0}))", hslToRgb(rgbToHsl({r:1.0,g:1.0,b:1.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.5,g:0.5,b:0.5}))", hslToRgb(rgbToHsl({r:0.5,g:0.5,b:0.5})));
-        console.log("hslToRgb(rgbToHsl({r:0.1,g:0.0,b:0.0}))", hslToRgb(rgbToHsl({r:0.1,g:0.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.1,g:0.1,b:0.0}))", hslToRgb(rgbToHsl({r:0.1,g:0.1,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.9,g:0.0,b:0.0}))", hslToRgb(rgbToHsl({r:0.9,g:0.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.9,g:0.9,b:0.0}))", hslToRgb(rgbToHsl({r:0.9,g:0.9,b:0.0})));
+    phiColors.generate = function (base, h, s, l, a, isAlignLuma) {
+        if (isAlignLuma === void 0) { isAlignLuma = true; }
+        var rgba = phiColors.hslaToRgba(base);
+        var hsla = {
+            h: base.h,
+            s: base.s,
+            l: base.l,
+            a: base.a,
+        };
+        if (undefined !== h) {
+            hsla.h += Math.PI * 2 / phiColors.phi * h;
+        }
+        if (undefined !== s) {
+            hsla.s = s < 0.0 ?
+                hsla.s / Math.pow(phiColors.phi, -s) :
+                phiColors.HslSMax - ((phiColors.HslSMax - hsla.s) / Math.pow(phiColors.phi, s));
+        }
+        if (undefined !== l) {
+            hsla.l = l < 0.0 ?
+                hsla.l / Math.pow(phiColors.phi, -l) :
+                1.0 - ((1.0 - hsla.l) / Math.pow(phiColors.phi, l));
+        }
+        if (undefined !== a) {
+            hsla.a = a < 0.0 ?
+                hsla.a / Math.pow(phiColors.phi, -a) :
+                1.0 - ((1.0 - hsla.a) / Math.pow(phiColors.phi, a));
+        }
+        if (isAlignLuma) {
+            var baseLuuma = phiColors.rgbToLuma(rgba);
+            var luuma = phiColors.rgbToLuma(phiColors.hslToRgb(hsla));
+            hsla.l += baseLuuma - luuma;
+        }
+        return phiColors.rgbaForStyle(phiColors.hslaToRgba(hsla));
     };
-    test();
-    //*/
 })(phiColors = exports.phiColors || (exports.phiColors = {}));
 //# sourceMappingURL=index.js.map

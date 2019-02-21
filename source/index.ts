@@ -245,33 +245,44 @@ export module phiColors
             a: Math.max(0.0, Math.min(1.0, expression.a)),
         }
     );
-
-    /*
-    export const test = () =>
+    export const generate = (base: Hsla, h : number, s : number, l :number, a :number, isAlignLuma : boolean = true): string =>
     {
-        console.log("rgbToHsl({r:0.0,g:0.0,b:0.0})", rgbToHsl({r:0.0,g:0.0,b:0.0}));
-        console.log("rgbToHsl({r:1.0,g:0.0,b:0.0})", rgbToHsl({r:1.0,g:0.0,b:0.0}));
-        console.log("rgbToHsl({r:0.0,g:1.0,b:0.0})", rgbToHsl({r:0.0,g:1.0,b:0.0}));
-        console.log("rgbToHsl({r:0.0,g:0.0,b:1.0})", rgbToHsl({r:0.0,g:0.0,b:1.0}));
-        console.log("rgbToHsl({r:1.0,g:1.0,b:0.0})", rgbToHsl({r:1.0,g:1.0,b:0.0}));
-        console.log("rgbToHsl({r:1.0,g:1.0,b:1.0})", rgbToHsl({r:1.0,g:1.0,b:1.0}));
-        console.log("rgbToHsl({r:0.5,g:0.5,b:0.5})", rgbToHsl({r:0.5,g:0.5,b:0.5}));
-        console.log("rgbToHsl({r:0.1,g:0.0,b:0.0})", rgbToHsl({r:0.1,g:0.0,b:0.0}));
-        console.log("rgbToHsl({r:0.1,g:0.1,b:0.0})", rgbToHsl({r:0.1,g:0.1,b:0.0}));
-        console.log("rgbToHsl({r:0.9,g:0.0,b:0.0})", rgbToHsl({r:0.9,g:0.0,b:0.0}));
-        console.log("rgbToHsl({r:0.9,g:0.9,b:0.0})", rgbToHsl({r:0.9,g:0.9,b:0.0}));
-        console.log("hslToRgb(rgbToHsl({r:0.0,g:0.0,b:0.0}))", hslToRgb(rgbToHsl({r:0.0,g:0.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:1.0,g:0.0,b:0.0}))", hslToRgb(rgbToHsl({r:1.0,g:0.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.0,g:1.0,b:0.0}))", hslToRgb(rgbToHsl({r:0.0,g:1.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.0,g:0.0,b:1.0}))", hslToRgb(rgbToHsl({r:0.0,g:0.0,b:1.0})));
-        console.log("hslToRgb(rgbToHsl({r:1.0,g:1.0,b:0.0}))", hslToRgb(rgbToHsl({r:1.0,g:1.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:1.0,g:1.0,b:1.0}))", hslToRgb(rgbToHsl({r:1.0,g:1.0,b:1.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.5,g:0.5,b:0.5}))", hslToRgb(rgbToHsl({r:0.5,g:0.5,b:0.5})));
-        console.log("hslToRgb(rgbToHsl({r:0.1,g:0.0,b:0.0}))", hslToRgb(rgbToHsl({r:0.1,g:0.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.1,g:0.1,b:0.0}))", hslToRgb(rgbToHsl({r:0.1,g:0.1,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.9,g:0.0,b:0.0}))", hslToRgb(rgbToHsl({r:0.9,g:0.0,b:0.0})));
-        console.log("hslToRgb(rgbToHsl({r:0.9,g:0.9,b:0.0}))", hslToRgb(rgbToHsl({r:0.9,g:0.9,b:0.0})));
+        const rgba = hslaToRgba(base);
+        const hsla =
+        {
+            h: base.h,
+            s: base.s,
+            l: base.l,
+            a: base.a,
+        };
+        if (undefined !== h)
+        {
+            hsla.h += Math.PI *2 / phi *h;
+        }
+        if (undefined !== s)
+        {
+            hsla.s = s < 0.0 ?
+                hsla.s / Math.pow(phi, -s):
+                HslSMax -((HslSMax - hsla.s) / Math.pow(phi, s));
+        }
+        if (undefined !== l)
+        {
+            hsla.l = l < 0.0 ?
+                hsla.l / Math.pow(phi, -l):
+                1.0 -((1.0 - hsla.l) / Math.pow(phi, l));
+        }
+        if (undefined !== a)
+        {
+            hsla.a = a < 0.0 ?
+                hsla.a / Math.pow(phi, -a):
+                1.0 -((1.0 - hsla.a) / Math.pow(phi, a));
+        }
+        if (isAlignLuma)
+        {
+            const baseLuuma = rgbToLuma(rgba);
+            const luuma = rgbToLuma(hslToRgb(hsla));
+            hsla.l += baseLuuma -luuma;
+        }
+        return rgbaForStyle(hslaToRgba(hsla));
     };
-    test();
-    //*/
 }
