@@ -247,7 +247,6 @@ export module phiColors
     );
     export const generate = (base: Hsla, h : number, s : number, l :number, a :number, isAlignLuma : boolean = true): Hsla =>
     {
-        const rgba = hslaToRgba(base);
         const hsla =
         {
             h: base.h,
@@ -279,7 +278,7 @@ export module phiColors
         }
         if (isAlignLuma)
         {
-            const baseLuuma = rgbToLuma(rgba);
+            const baseLuuma = phiColors.rgbToLuma(phiColors.hslToRgb({h:base.h, s:base.s, l:hsla.l}));
             const luuma = rgbToLuma(hslToRgb(hsla));
             hsla.l += baseLuuma -luuma;
         }
