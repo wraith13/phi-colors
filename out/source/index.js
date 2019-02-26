@@ -215,7 +215,7 @@ var phiColors;
             var luuma = phiColors.rgbToLuma(phiColors.hslToRgb(hsla));
             hsla.l += baseLuuma - luuma;
         }
-        return hsla;
+        return phiColors.regulateHsla(hsla);
     };
 })(phiColors = exports.phiColors || (exports.phiColors = {}));
 //# sourceMappingURL=index.js.map

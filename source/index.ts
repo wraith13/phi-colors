@@ -282,6 +282,6 @@ export module phiColors
             const luuma = rgbToLuma(hslToRgb(hsla));
             hsla.l += baseLuuma -luuma;
         }
-        return hsla;
+        return phiColors.regulateHsla(hsla);
     };
 }
