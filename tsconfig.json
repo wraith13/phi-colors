@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "commonjs",
         "moduleResolution": "node",
-        "declaration": false,
+        "declaration": true,
         "target": "es5",
         "lib": [
             "es6",
@@ -32,5 +32,6 @@
         "rootDir": "."
     },
     "exclude": [
+        "out"
     ]
 }

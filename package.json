@@ -4,6 +4,7 @@
   "preview": true,
   "description": "generate phi ratio coloring",
   "main": "out/source/index.js",
+  "types": "out/source/index.d.ts",
   "scripts": {
     "test": "mocha out/test"
   },
