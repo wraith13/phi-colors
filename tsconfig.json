@@ -28,10 +28,10 @@
         "skipLibCheck": false,
         "pretty": false,
         "noEmitOnError": true,
-        "outDir": "out",
+        "outDir": "library",
         "rootDir": "."
     },
     "exclude": [
-        "out"
+        "library"
     ]
 }
