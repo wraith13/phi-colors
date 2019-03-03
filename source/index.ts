@@ -254,23 +254,23 @@ export module phiColors
             l: base.l,
             a: base.a,
         };
-        if (undefined !== h)
+        if (undefined !== h && 0.0 !== h)
         {
             hsla.h += Math.PI *2 / phi *h;
         }
-        if (undefined !== s)
+        if (undefined !== s && 0.0 !== s)
         {
             hsla.s = s < 0.0 ?
                 hsla.s / Math.pow(phi, -s):
                 HslSMax -((HslSMax - hsla.s) / Math.pow(phi, s));
         }
-        if (undefined !== l)
+        if (undefined !== l && 0.0 !== l)
         {
             hsla.l = l < 0.0 ?
                 hsla.l / Math.pow(phi, -l):
                 1.0 -((1.0 - hsla.l) / Math.pow(phi, l));
         }
-        if (undefined !== a)
+        if (undefined !== a && 0.0 !== a)
         {
             hsla.a = a < 0.0 ?
                 hsla.a / Math.pow(phi, -a):
