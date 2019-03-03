@@ -245,7 +245,7 @@ export module phiColors
             a: Math.max(0.0, Math.min(1.0, expression.a)),
         }
     );
-    export const generate = (base: Hsla, h : number, s : number, l :number, a :number, isAlignLuma : boolean = true): Hsla =>
+    export const generate = (base: Hsla, h : number | undefined, s : number | undefined, l :number | undefined, a :number | undefined, isAlignLuma : boolean = true): Hsla =>
     {
         const hsla =
         {
