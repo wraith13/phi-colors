@@ -278,10 +278,10 @@ export module phiColors
         }
         if (isAlignLuma)
         {
-            const baseLuuma = phiColors.rgbToLuma(phiColors.hslToRgb({h:base.h, s:base.s, l:hsla.l}));
+            const baseLuuma = rgbToLuma(hslToRgb({h:base.h, s:base.s, l:hsla.l}));
             const luuma = rgbToLuma(hslToRgb(hsla));
             hsla.l += baseLuuma -luuma;
         }
-        return phiColors.regulateHsla(hsla);
+        return regulateHsla(hsla);
     };
 }
