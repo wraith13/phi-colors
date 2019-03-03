@@ -40,7 +40,7 @@ export module phiColors
         z : number;
     }
     const toHex = (i : number) : string => {
-        let result = ((255 *i) ^ 0).toString(16).toUpperCase();
+        let result = Math.round(255 *i).toString(16).toUpperCase();
         if (1 === result.length) {
             result = "0" +result;
         }
