@@ -1,8 +1,15 @@
 {
   "name": "phi-colors",
-  "version": "0.0.4",
-  "preview": true,
+  "version": "1.0.0",
   "description": "generate phi ratio coloring",
+  "keywords": [
+    "phi",
+    "color",
+    "rgb",
+    "rgba",
+    "hsl",
+    "hsla"
+  ],
   "main": "library/source/index.js",
   "types": "library/source/index.d.ts",
   "scripts": {
