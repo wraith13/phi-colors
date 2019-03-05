@@ -1,5 +1,5 @@
 import { phiColors } from "../source";
-import assert = require("assert");
+import * as assert from "assert";
 
 const deltaRound = (value: number) =>
     (-0.00000000001 < value && value < 0.00000000001 ? 0.0: value).toFixed(10);
