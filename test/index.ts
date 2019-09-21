@@ -11,7 +11,7 @@ const objectDeltaRound = (o: object): object =>
     (
         key =>
         {
-            const value = o[key]
+            const value = o[key];
             if ("number" === typeof value)
             {
                 result[key] = deltaRound(value);
@@ -28,7 +28,7 @@ const objectDeltaRound = (o: object): object =>
         }
     );
     return result;
-}
+};
 const assertDeepNearEqual = (result: object, expect: object) => assert.deepEqual(objectDeltaRound(result), objectDeltaRound(expect));
 
 describe
@@ -52,6 +52,22 @@ describe
                 it(`rgbToHsl({r:0.1,g:0.1,b:0.0})`, () => assertDeepNearEqual(phiColors.rgbToHsl({r:0.1,g:0.1,b:0.0}), {h: Math.PI/3.0, s: 0.2/3.0, l: 0.2/3.0}));
                 it(`rgbToHsl({r:0.9,g:0.0,b:0.0})`, () => assertDeepNearEqual(phiColors.rgbToHsl({r:0.9,g:0.0,b:0.0}), {h: 0, s: 0.6, l: 0.3}));
                 it(`rgbToHsl({r:0.9,g:0.9,b:0.0})`, () => assertDeepNearEqual(phiColors.rgbToHsl({r:0.9,g:0.9,b:0.0}), {h: Math.PI/3.0, s: 0.6, l: 0.6}));
+            }
+        );
+        describe
+        (
+            'regulateHsla()',
+            () =>
+            {
+                it(`regulateHsla({h:0,s:0,l:0,a:0})`, () => assertDeepNearEqual(phiColors.regulateHsla({h:0,s:0,l:0,a:0}), {h:0,s:0,l:0,a:0}));
+                it(`regulateHsla({h:0.5,s:0.5,l:0.5,a:0})`, () => assertDeepNearEqual(phiColors.regulateHsla({h:0.5,s:0.5,l:0.5,a:0}), {h:0.5,s:0.5,l:0.5,a:0}));
+                it(`regulateHsla({h:-0.5,s:-0.5,l:-0.5,a:0})`, () => assertDeepNearEqual(phiColors.regulateHsla({h:-0.5,s:-0.5,l:-0.5,a:0}), {h:-0.5,s:0,l:0,a:0}));
+                it(`regulateHsla({h:10,s:0,l:0,a:0})`, () => assertDeepNearEqual(phiColors.regulateHsla({h:10,s:0,l:0,a:0}), {h:-2.5663706144,s:0,l:0,a:0}));
+                it(`regulateHsla({h:100,s:0,l:0,a:0})`, () => assertDeepNearEqual(phiColors.regulateHsla({h:100,s:0,l:0,a:0}), {h:-0.5309649149,s:0,l:0,a:0}));
+                it(`regulateHsla({h:-10,s:0,l:0,a:0})`, () => assertDeepNearEqual(phiColors.regulateHsla({h:-10,s:0,l:0,a:0}), {h:2.5663706144,s:0,l:0,a:0}));
+                it(`regulateHsla({h:-100,s:0,l:0,a:0})`, () => assertDeepNearEqual(phiColors.regulateHsla({h:-100,s:0,l:0,a:0}), {h:0.5309649149,s:0,l:0,a:0}));
+                it(`regulateHsla({h:0,s:10,l:0,a:0})`, () => assertDeepNearEqual(phiColors.regulateHsla({h:0,s:10,l:0,a:0}), {h:0,s:0,l:0,a:0}));
+                it(`regulateHsla({h:0,s:0,l:10,a:0})`, () => assertDeepNearEqual(phiColors.regulateHsla({h:0,s:0,l:10,a:0}), {h:0,s:0,l:1,a:0}));
             }
         );
         describe

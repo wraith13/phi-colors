@@ -166,24 +166,13 @@ export module phiColors
         }
     );
     export const regulateHue = (expression : Hsl) : Hsl =>
-    {
-        let h = expression.h;
-        while(h < -Math.PI)
+    (
         {
-            h += Math.PI *2;
-        }
-        while(Math.PI < h)
-        {
-            h -= Math.PI *2;
-        }
-        const result =
-        {
-            h: h,
+            h: expression.h - (((expression.h +(0 <= expression.h ? Math.PI: -Math.PI)) /(Math.PI *2)) ^ 0) *(Math.PI *2),
             s: expression.s,
             l: expression.l,
-        };
-        return result;
-    };
+        }
+    );
     export const clipLightness = (expression : Hsl) : Hsl =>
     (
         {
