@@ -25,6 +25,14 @@ var phiColors;
             + toHex(expression.g)
             + toHex(expression.b);
     };
+    phiColors.rgbForCssColor = function (colorSpace, expression, digits) {
+        if (digits === void 0) { digits = 5; }
+        return "color(" + colorSpace + " " + expression.r.toFixed(digits) + " " + expression.g.toFixed(digits) + " " + expression.b.toFixed(digits) + ")";
+    };
+    phiColors.rgbaForCssColor = function (colorSpace, expression, digits) {
+        if (digits === void 0) { digits = 5; }
+        return "color(" + colorSpace + " " + expression.r.toFixed(digits) + " " + expression.g.toFixed(digits) + " " + expression.b.toFixed(digits) + " / " + expression.a.toFixed(digits) + ")";
+    };
     phiColors.rgbaForStyle = function (expression) {
         return phiColors.rgbForStyle(expression) + toHex(expression.a);
     };

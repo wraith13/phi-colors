@@ -31,6 +31,8 @@ export declare module phiColors {
         z: number;
     }
     const rgbForStyle: (expression: Rgb) => string;
+    const rgbForCssColor: (colorSpace: number, expression: Rgb, digits?: number) => string;
+    const rgbaForCssColor: (colorSpace: number, expression: Rgba, digits?: number) => string;
     const rgbaForStyle: (expression: Rgba) => string;
     const rgbFromStyle: (style: string) => Rgb;
     const rgbaFromStyle: (style: string) => Rgba;
