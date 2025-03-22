@@ -51,6 +51,10 @@ export module phiColors
             +toHex(expression.r)
             +toHex(expression.g)
             +toHex(expression.b);
+    export const rgbForCssColor = (colorSpace: number, expression: Rgb, digits: number = 5) =>
+        `color(${colorSpace} ${expression.r.toFixed(digits)} ${expression.g.toFixed(digits)} ${expression.b.toFixed(digits)})`;
+    export const rgbaForCssColor = (colorSpace: number, expression: Rgba, digits: number = 5) =>
+        `color(${colorSpace} ${expression.r.toFixed(digits)} ${expression.g.toFixed(digits)} ${expression.b.toFixed(digits)} / ${expression.a.toFixed(digits)})`;
     export const rgbaForStyle = (expression: Rgba) =>
         rgbForStyle(expression) +toHex(expression.a);
     export const rgbFromStyle = (style : string) : Rgb =>
